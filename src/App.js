@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, CardImg, Container } from "react-bootstrap";
+import { Button, Card,Row, Col,CardImg, Container } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 
 import './App.css';
@@ -53,23 +53,43 @@ const  App = () => {
   return (
     <div>
       <Header/>
-      {productsArr.map((product =>{
-      return (<Container className="products-page">
-        <Card className='shadow-lg'>
-          <Card.Body>
-            <CardHeader>{product.title}</CardHeader>
-            <CardImg src={product.imageUrl}/>
-            <Card.Footer>
-              ${product.price}
-              <Button variant="success">Add To Cart</Button>
-            </Card.Footer>
-            
-          </Card.Body>
+      <Container fluid>
+        <Card>
+          <h1>
+            The Generics
+          </h1>
         </Card>
+      </Container>
+      
+      <Container className="products-page">    
+      {productsArr.map((product =>{
+      // return (
+      return (
         
-      </Container>)
-      }))
+          <Row >
+            <Col >
+                <Card className='shadow-lg' style={{ width: '10rem' }}>
+              
+                    
+                    <Card.Body>
+                      <CardHeader>{product.title}</CardHeader>
+                      <CardImg src={product.imageUrl}/>
+                      <Card.Footer>
+                          ${product.price}
+                          <Button variant="success">Add To Cart</Button>
+                      </Card.Footer>
+                      
+                    </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+               
+                  
+        
+      )}))
+  
     }
+    </Container> 
       
     </div>
   );
