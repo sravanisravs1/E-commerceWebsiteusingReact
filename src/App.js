@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card,Row, Col,CardImg, Container } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 
 import './App.css';
 import Header from "./components/Header/Header";
+import CartModal from "./components/Cart/CartItems";
+
+
 
 
 const  App = () => {
+  const [cartState , setCartState ] = useState(false);
+  const showCart = ()=>{
+    setCartState(true);
+    
+  }
+  const closeCart = () =>{
+    setCartState(false);
+  }
   const productsArr = [
 
     {
@@ -50,49 +61,56 @@ const  App = () => {
     }
     
     ]
-  return (
-    <div>
-      <Header/>
-      <Container fluid>
-        <Card>
-          <h1>
-            The Generics
-          </h1>
-        </Card>
-      </Container>
-      
-      <Container className="products-page">    
-      {productsArr.map((product =>{
-      // return (
-      return (
+
+  if (cartState){
+    return (<CartModal closeCart={closeCart}/>)
+  }  
+  else{
+    return (
+      <div>
+        <Header showCart={showCart} closeCart={closeCart}/>
+        <Container fluid>
+          
+            <h1>
+              The Generics
+            </h1>
+          
+        </Container>
         
-          <Row >
-            <Col >
-                <Card className='shadow-lg' style={{ width: '10rem' }}>
-              
-                    
-                    <Card.Body>
-                      <CardHeader>{product.title}</CardHeader>
-                      <CardImg src={product.imageUrl}/>
-                      <Card.Footer>
-                          ${product.price}
-                          <Button variant="success">Add To Cart</Button>
-                      </Card.Footer>
+        <Container className="products-page"> 
+          <Row >   
+        {productsArr.map((product =>{
+        // return (
+        return (
+          
+            
+              <Col >
+                  <Card className='shadow-lg' style={{ width: '10rem' }}>
+                
                       
-                    </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-               
-                  
-        
-      )}))
-  
-    }
-    </Container> 
+                      <Card.Body>
+                        <CardHeader>{product.title}</CardHeader>
+                        <CardImg src={product.imageUrl}/>
+                        <Card.Footer>
+                            ${product.price}
+                            <Button 
+                              variant="success">Add To Cart</Button>
+                        </Card.Footer>
+                        
+                      </Card.Body>
+                  </Card>
+                </Col>
+              
+        )}))
+        }
+          </Row>
+    
       
-    </div>
-  );
+      </Container> 
+      {/* { cartState && <CartModal closeCart={closeCart}/> } */}
+        
+      </div>
+    )}
 }
 
 export default App;

@@ -4,9 +4,10 @@ import {Button, Container, Navbar,Row,Col} from 'react-bootstrap';
 
 
 
-const Header = ()=>{
+const Header = (props)=>{
     return(<Navbar bg="success" expand='sm' variant='light'>
         <Container>
+          
             <Row>
               <Col xs={4}>
                 <Navbar.Brand href='/'>Home</Navbar.Brand>
@@ -18,7 +19,9 @@ const Header = ()=>{
                 <Navbar.Brand href='/'>ABOUT</Navbar.Brand>
               </Col>
               <Col xs={4}>
-                <Button>Cart</Button>
+                <Button 
+                  onClick={props.showCart}
+                  >Cart</Button>
               </Col>
             </Row>
           
