@@ -2,8 +2,7 @@ import React, { useState ,useContext, Fragment} from "react";
 import About from './pages/About';
 import Home from "./pages/Home";
 import { createBrowserRouter ,RouterProvider} from "react-router-dom";
-import Movies from "./components/APICalls/Movies";
-
+import MovieList from './components/Movies/MovieList'
 
 const router = createBrowserRouter([
   
@@ -13,6 +12,7 @@ const router = createBrowserRouter([
 ]);
 
 const  App = (props) => {
+  const [movies,setMovies ] = useState([]);
 //   function MoviesList () {
 //     fetch('https://swapi.dev/api/films/')
 //     .then((response)=>{ return response.json();
@@ -23,14 +23,27 @@ const  App = (props) => {
   async function MoviesList () {
       const response= await fetch('https://swapi.dev/api/films/');
       const data = await response.json();
-      const results= data.results
-      return (console.log(results))
+      const transformedMovies = data.results.map((movieData=>{
+        return ({
+          id:movieData.episode_id,
+          title:movieData.title,
+          releaseDate:movieData.release_date,
+          openingText:movieData.opening_crawl
+        });
+
+      }));
       
+    setMovies(transformedMovies)  
   }
   return(
   <Fragment>
       <RouterProvider router={router}/>
-      <Movies MoviesList={MoviesList}/>
+      <section>
+          <button onClick={MoviesList}>
+            FetchMovies
+          </button>
+      </section>
+      <MovieList movies={movies}/>
   </Fragment>
     
   )}
