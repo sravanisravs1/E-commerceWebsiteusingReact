@@ -1,76 +1,39 @@
-import React, { useState ,useContext} from "react";
-import { Button, Card,Row, Col,CardImg, Container ,Navbar} from "react-bootstrap";
-import CardHeader from "react-bootstrap/esm/CardHeader";
-
-import './App.css';
-import Header from "./components/Header/Header";
-import Cart from "./components/Cart/Cart";
-import AvailableProducts from "./components/AvailableItems/AvailableProducts";
-import CartProvider from "./store/CartProvider";
-import CartContext from "./store/cart-context";
-
-import { createBrowserRouter ,RouterProvider} from "react-router-dom";
+import React, { useState ,useContext, Fragment} from "react";
+import About from './pages/About';
 import Home from "./pages/Home";
-import About from "./pages/About";
-import Store from "./pages/Store";
-import Footer from "./components/Footer/Footer";
+import { createBrowserRouter ,RouterProvider} from "react-router-dom";
+import Movies from "./components/APICalls/Movies";
+
 
 const router = createBrowserRouter([
   
   {path:'/about',element:<About/>},
+  {path:'/',element:<Home/>}
   
 ]);
 
 const  App = (props) => {
-  const cartCtx= useContext(CartContext);
-  const addToCartHandler= amount =>{
-    cartCtx.addItem({
-        
-        title : props.title,
-        amount: amount,
-        price : props.price
-    })
-};
-  const [cartState , setCartState ] = useState(false);
-  const showCart = ()=>{
-    setCartState(true);
+//   function MoviesList () {
+//     fetch('https://swapi.dev/api/films/')
+//     .then((response)=>{ return response.json();
+// })
+//     .then(data=>console.log(data.results))
     
-  }
-  const closeCart = () =>{
-    setCartState(false);
-  }
-  
-
-  if (cartState){
-    return (<Cart closeCart={closeCart}/>)
-  }  
-  else{
-    return (
+// }
+  async function MoviesList () {
+      const response= await fetch('https://swapi.dev/api/films/');
+      const data = await response.json();
+      const results= data.results
+      return (console.log(results))
       
-      <CartProvider>
-        <Header showCart={showCart} closeCart={closeCart} />
-        <Navbar>
-        <Container fluid  style={{backgroundColor: 'pink'}}>
-          
-          <h1 className="p-3" >
-            The Generics
-          </h1>
-        
-      </Container>
-        </Navbar>
-        
-        <Container className="products-page"> 
-          
-    
-      
-      </Container> 
-      {/* { cartState && <CartModal closeCart={closeCart}/> } */}
+  }
+  return(
+  <Fragment>
       <RouterProvider router={router}/>
-      <Footer/>
-      </CartProvider>
-      
-      
-    )}
-}
+      <Movies MoviesList={MoviesList}/>
+  </Fragment>
+    
+  )}
+
 
 export default App;

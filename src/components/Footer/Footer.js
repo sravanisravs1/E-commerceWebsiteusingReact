@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card ,Col,Row} from 'react-bootstrap';
 
-function Footer(props) {
+const Footer = (props)=> {
     return (
         <footer>
             <Card className='shadow-lg' style={{ backgroundColor:'pink'}}>
