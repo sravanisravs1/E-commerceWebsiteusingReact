@@ -20,8 +20,8 @@ const  App = (props) => {
   const [isLoading , setIsLoading ] = useState(false);
   const [error,setError] = useState(null);
   const [isRetry,setIsRetry] = useState(true)
-  const retry = ()=>{setTimeout(MoviesList(), 5000)}
-  const clearRetry=()=>{clearTimeout(retry)}
+  // const retry = ()=>{setTimeout(MoviesList(), 5000)}
+  // const clearRetry=()=>{clearTimeout(retry)}
   
 //   function MoviesList () {
 //     fetch('https://swapi.dev/api/films/')
@@ -36,10 +36,9 @@ const MoviesList = useCallback(async()=> {
   setError(null);
   
   try{
-      const response= await fetch('https://swapi.dev/api/films/');
+      const response= await fetch('https://swapi.dev/api/film/');
       if (!response.ok ){
-        retry();
-        throw new Error('something went wrong,Retrying...');
+       throw new Error('something went wrong,Retrying...');
       }
       
       const data = await response.json();
@@ -67,13 +66,30 @@ const MoviesList = useCallback(async()=> {
 useEffect(()=>{
   MoviesList();
  },[])
-  
+
+ 
+  let retry = ()=>{
+    setInterval(()=>{
+      MoviesList()
+    }
+    ,50000
+  )}
+  function cancelRetry(){
+    setIsRetry(false);
+    setIsLoading(false);
+    clearInterval(retry);
+  } 
   let content = <p>Found no Movies</p>
   if(movies.length > 0) {
     content = <MovieList movies={movies}/>
   }
   if (error){
     content = <p>{error}</p>
+    retry()
+   
+  }
+  if (error && !isRetry ){
+    content =<p>Something went wrong,check network settings</p>
   }
   if(isLoading) {
     content = <p>Loading...</p>
@@ -87,7 +103,7 @@ useEffect(()=>{
           <Button variant='success' onClick={MoviesList}>
             FetchMovies
           </Button>
-          <Button variant='danger' onClick={clearRetry}>Cancel </Button>
+          <Button variant='danger' onClick={cancelRetry}>Cancel </Button>
           
       </section>
       <section>
