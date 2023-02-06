@@ -1,4 +1,4 @@
-import React, { useState ,useContext, Fragment} from "react";
+import React, { useState ,useContext,Fragment,useCallback, useEffect} from "react";
 import About from './pages/About';
 import Home from "./pages/Home";
 import { Button } from "react-bootstrap";
@@ -13,9 +13,16 @@ const router = createBrowserRouter([
   
 ]);
 
+
+
 const  App = (props) => {
   const [movies,setMovies ] = useState([]);
   const [isLoading , setIsLoading ] = useState(false);
+  const [error,setError] = useState(null);
+  const [isRetry,setIsRetry] = useState(true)
+  const retry = ()=>{setTimeout(MoviesList(), 5000)}
+  const clearRetry=()=>{clearTimeout(retry)}
+  
 //   function MoviesList () {
 //     fetch('https://swapi.dev/api/films/')
 //     .then((response)=>{ return response.json();
@@ -23,9 +30,18 @@ const  App = (props) => {
 //     .then(data=>console.log(data.results))
     
 // }
-  async function MoviesList () {
-      setIsLoading(true)
+const MoviesList = useCallback(async()=> {
+      
+  setIsLoading(true);
+  setError(null);
+  
+  try{
       const response= await fetch('https://swapi.dev/api/films/');
+      if (!response.ok ){
+        retry();
+        throw new Error('something went wrong,Retrying...');
+      }
+      
       const data = await response.json();
       const transformedMovies = data.results.map((movieData=>{
         return ({
@@ -38,8 +54,32 @@ const  App = (props) => {
       }));
       
     setMovies(transformedMovies);
-    setIsLoading(false)  
+    
+
+  } catch(error) {
+        setError(error.message);    
+  }   
+  setIsLoading(false) ;  
+
+  
+},[]);
+
+useEffect(()=>{
+  MoviesList();
+ },[])
+  
+  let content = <p>Found no Movies</p>
+  if(movies.length > 0) {
+    content = <MovieList movies={movies}/>
   }
+  if (error){
+    content = <p>{error}</p>
+  }
+  if(isLoading) {
+    content = <p>Loading...</p>
+  }
+
+  
   return(
   <Fragment>
       <RouterProvider router={router}/>
@@ -47,12 +87,22 @@ const  App = (props) => {
           <Button variant='success' onClick={MoviesList}>
             FetchMovies
           </Button>
-          {isLoading && <p>loading....</p>}
+          <Button variant='danger' onClick={clearRetry}>Cancel </Button>
+          
       </section>
-      <MovieList movies={movies}/>
+      <section>
+        {/* {!isLoading && movies.length > 0 && <MovieList movies={movies}/>}
+        {!error && isLoading && <p>loading....</p>}
+        {!error && !isLoading && movies.length === 0 && <p>Found no Movies.</p>}
+        {!isLoading && error && <p>{error}</p>} */}
+        {content}
+      </section>
+      
   </Fragment>
     
   )}
+
+    
 
 
 export default App;
