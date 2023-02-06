@@ -1,18 +1,21 @@
 import React, { useState ,useContext, Fragment} from "react";
 import About from './pages/About';
 import Home from "./pages/Home";
+import { Button } from "react-bootstrap";
 import { createBrowserRouter ,RouterProvider} from "react-router-dom";
 import MovieList from './components/Movies/MovieList'
 
 const router = createBrowserRouter([
   
   {path:'/about',element:<About/>},
-  {path:'/',element:<Home/>}
+  {path:'/',element:<Home/>},
+  // {path:'/store',element:<Store/>}
   
 ]);
 
 const  App = (props) => {
   const [movies,setMovies ] = useState([]);
+  const [isLoading , setIsLoading ] = useState(false);
 //   function MoviesList () {
 //     fetch('https://swapi.dev/api/films/')
 //     .then((response)=>{ return response.json();
@@ -21,6 +24,7 @@ const  App = (props) => {
     
 // }
   async function MoviesList () {
+      setIsLoading(true)
       const response= await fetch('https://swapi.dev/api/films/');
       const data = await response.json();
       const transformedMovies = data.results.map((movieData=>{
@@ -33,15 +37,17 @@ const  App = (props) => {
 
       }));
       
-    setMovies(transformedMovies)  
+    setMovies(transformedMovies);
+    setIsLoading(false)  
   }
   return(
   <Fragment>
       <RouterProvider router={router}/>
       <section>
-          <button onClick={MoviesList}>
+          <Button variant='success' onClick={MoviesList}>
             FetchMovies
-          </button>
+          </Button>
+          {isLoading && <p>loading....</p>}
       </section>
       <MovieList movies={movies}/>
   </Fragment>
