@@ -1,40 +1,37 @@
-import classes from './CartItem.module.css';
-import { Row , Col,  } from "react-bootstrap";
+import { useContext } from "react";
+
+import classes from "./CartItem.module.css";
+import CartContext from "../../store/cart-context";
 
 const CartItem = (props) => {
-    const price = `Rs${props.price.toFixed(2)}`;
-  
+    // console.log( "end last" ,props)
+    const ctx = useContext(CartContext);
+
+   const  removeCartItem = (id) => { 
+        console.log("remove cart item", id)
+        ctx.removeItem(id);
+    }
+
     return (
-                <Row className={classes['cart-item']}>
-                    <Col sm={3}>
-                        <span>{props.title}</span>
-                        <ul>-------------------</ul>
-                    </Col>
-                    <Col sm={3}>
-                        <span className={classes.price}>{price}</span>
-                        <ul>------</ul>
-                    </Col>
-                    <Col sm={3}>
-                    
-                        <span className={classes.amount} >
-                            {props.amount}
-                        </span>
-                        <ul>------</ul>
-                    </Col>
-                    
-                    <Col sm={1}className={classes.actions}>
-                    
-                        <button onClick={props.onRemove}>−</button>
-                        <ul>------</ul>
-                        
-                    
-                    </Col>
-                    <Col className={classes.actions} sm={1}>
-                    <button onClick={props.onAdd}>+</button>
-                    <ul>--</ul>
-                    </Col>
-                </Row>)
-      
-  };
-  
-  export default CartItem;
+        <li className={classes.list}>
+            <div className={classes.itemcontainer}>
+
+                <div className={classes.item}>
+                <h4>{props.title}</h4>
+                <img src={props.img} alt="product img"/>
+                </div>
+
+                <div className={classes.price}>
+                    <p>Price: ${props.price}</p>
+                </div>
+
+                <div className={classes.qty}>
+                    <span>Quantity: {props.quantity}</span>
+                    <button onClick={() => removeCartItem(props.id)}>Remove</button>
+                </div>
+            </div>
+        </li>
+    );
+}
+
+export default CartItem;

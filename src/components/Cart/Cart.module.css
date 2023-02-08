@@ -1,37 +1,17 @@
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px 30px;
+.ullist {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: flex-start;
 }
 
-.purchasebtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-      margin-top: auto;
-    margin-top: 50px;
-    background: #56CCF2;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 8%;
-    padding: 12px;
-    cursor: pointer;
-  }
-
-  .cancel {
-    position: absolute;
-    cursor: pointer;
-    color: rgb(121, 117, 117);
-    top: 0;
-    right: 0;
-    margin: 20px;
-    background: none;
-    font-size: 16px;
-    font-weight: 700;
-    border: 1px solid rgb(121, 117, 117);
-    border-radius: 7px;
-    padding: 5px;
-  }  
+.total {
+  padding: 8px 0px 8px;
+  border: 1px solid rgb(247, 235, 235);
+  background-color: white;
+  border-radius: 5px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding-left: 16px;
+  box-shadow: 3px 3px 10px rgb(122, 121, 121);
+}

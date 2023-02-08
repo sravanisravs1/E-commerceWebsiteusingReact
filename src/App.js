@@ -1,124 +1,39 @@
-import React, { useState ,useContext,Fragment,useCallback, useEffect} from "react";
-import About from './pages/About';
-import Home from "./pages/Home";
-import { Button } from "react-bootstrap";
-import { createBrowserRouter ,RouterProvider} from "react-router-dom";
-import MovieList from './components/Movies/MovieList'
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const router = createBrowserRouter([
-  
-  {path:'/about',element:<About/>},
-  {path:'/',element:<Home/>},
-  // {path:'/store',element:<Store/>}
-  
-]);
+import Header from "./components/Layout/Header";
+import Products from './Pages/Products'
+import CartProvider from "./store/CartProvider";
 
+import Home from "./Pages/Home";
+import About from "./Pages/About";
+import ContactUs from './Pages/ContactUs';
+import SingleProduct from "./Pages/SingleProduct";
 
+const router = createBrowserRouter( [ 
+  {
+    path: '/',
+    element: <Header/>,
+    children: [
+      { path: '/', element: <Home/> },
+      { path: '/products', element: <Products/> },
+      { path: '/about', element: <About/> },
+      { path: '/contact', element: <ContactUs/>},
+      {path: '/products/:id', element: <SingleProduct/>},
+    ],
+  },
+] );
 
-const  App = (props) => {
-  const [movies,setMovies ] = useState([]);
-  const [isLoading , setIsLoading ] = useState(false);
-  const [error,setError] = useState(null);
-  const [isRetry,setIsRetry] = useState(true)
-  // const retry = ()=>{setTimeout(MoviesList(), 5000)}
-  // const clearRetry=()=>{clearTimeout(retry)}
-  
-//   function MoviesList () {
-//     fetch('https://swapi.dev/api/films/')
-//     .then((response)=>{ return response.json();
-// })
-//     .then(data=>console.log(data.results))
-    
-// }
-const MoviesList = useCallback(async()=> {
-      
-  setIsLoading(true);
-  setError(null);
-  
-  try{
-      const response= await fetch('https://swapi.dev/api/film/');
-      if (!response.ok ){
-       throw new Error('something went wrong,Retrying...');
-      }
-      
-      const data = await response.json();
-      const transformedMovies = data.results.map((movieData=>{
-        return ({
-          id:movieData.episode_id,
-          title:movieData.title,
-          releaseDate:movieData.release_date,
-          openingText:movieData.opening_crawl
-        });
-
-      }));
-      
-    setMovies(transformedMovies);
-    
-
-  } catch(error) {
-        setError(error.message);    
-  }   
-  setIsLoading(false) ;  
-
-  
-},[]);
-
-useEffect(()=>{
-  MoviesList();
- },[])
-
- 
-  let retry = ()=>{
-    setInterval(()=>{
-      MoviesList()
-    }
-    ,50000
-  )}
-  function cancelRetry(){
-    setIsRetry(false);
-    setIsLoading(false);
-    clearInterval(retry);
-  } 
-  let content = <p>Found no Movies</p>
-  if(movies.length > 0) {
-    content = <MovieList movies={movies}/>
-  }
-  if (error){
-    content = <p>{error}</p>
-    retry()
-   
-  }
-  if (error && !isRetry ){
-    content =<p>Something went wrong,check network settings</p>
-  }
-  if(isLoading) {
-    content = <p>Loading...</p>
-  }
-
-  
-  return(
-  <Fragment>
+function App() {
+  return (
+    <CartProvider>
       <RouterProvider router={router}/>
-      <section>
-          <Button variant='success' onClick={MoviesList}>
-            FetchMovies
-          </Button>
-          <Button variant='danger' onClick={cancelRetry}>Cancel </Button>
-          
-      </section>
-      <section>
-        {/* {!isLoading && movies.length > 0 && <MovieList movies={movies}/>}
-        {!error && isLoading && <p>loading....</p>}
-        {!error && !isLoading && movies.length === 0 && <p>Found no Movies.</p>}
-        {!isLoading && error && <p>{error}</p>} */}
-        {content}
-      </section>
-      
-  </Fragment>
-    
-  )}
-
-    
-
+      {/* <Header/>
+      //<main>
+       // <Products/>
+      //</main> */}
+    </CartProvider>
+  );
+}
 
 export default App;
