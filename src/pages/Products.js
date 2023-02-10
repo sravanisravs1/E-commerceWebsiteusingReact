@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Card,Button } from "react-bootstrap";
 import CartContext from "../store/cart-context";
+import { useNavigate } from "react-router-dom";
 
 
 const productsArr = [
@@ -42,8 +43,11 @@ const productsArr = [
   },
 ];
 
-const Products = () => {
-const context=useContext(CartContext)
+const Products = (props) => {
+const context=useContext(CartContext);
+
+const navigate = useNavigate();
+
 const submitHandler=(event)=>{
   event.preventDefault()
 }
@@ -62,7 +66,12 @@ const addItemToCart=(product)=>{
   {productsArr.map((product)=>(
     <form style={{ width: '18rem',display: "inline-block", flexWrap: "wrap" }} className="m-3" onSubmit={submitHandler}>
         <Card className="shadow-lg m-5" key={Math.random()} style={{ width: '18rem',display: "inline-block", flexWrap: "wrap" }}>
-            <Card.Img variant="top"  src={product.imageUrl} ></Card.Img>
+            <Card.Img 
+              onClick={()=> navigate(`/products/${product.id}`)}
+              variant="top"  
+              src={product.imageUrl} >
+
+            </Card.Img>
             <Card.Body>
             <Card.Title>{product.title}</Card.Title>
             <Card.Text>{product.price}</Card.Text>

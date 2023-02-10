@@ -82,7 +82,7 @@ const Cart = (props) => {
                   margin: "2.5rem",
                 }}
               >
-                price
+                Quantity
               </h3>
             </div>
           </Modal.Title>
@@ -93,7 +93,7 @@ const Cart = (props) => {
             <ul style={{ display: "flex"}} key={Math.random()}>
               <li style={{ listStyle: "none" }}>
                 <span style={{ display: "flex" }} className="mt-lg-4">
-                  <img src={ele.imageUrl} style={{ width: "20%" }} alt="items"></img>
+                  <img src={ele.imageUrl} style={{ width: "20%" }  } alt="items"></img>
                   <h4 style={{ width: "20%", marginLeft: "10%" }}>
                     {ele.title}
                   </h4>
@@ -107,7 +107,7 @@ const Cart = (props) => {
                     {ele.quantity}
                   </span>
                   <div style={{ marginLeft: "10px" }}>
-                    <Button className="btn btn-danger p-2" onClick={()=>cartRemove(ele)}>Remove</Button>
+                    <Button className="btn btn-danger p-2" style={{ display: "inline-block"}} onClick={()=>cartRemove(ele)}>Remove</Button>
                   </div>
                 </span>
               </li>

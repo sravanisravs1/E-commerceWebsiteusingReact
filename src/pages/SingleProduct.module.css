@@ -38,3 +38,9 @@
     display: flex;
     border-bottom: 1px solid grey;
 }
+
+.product-images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
