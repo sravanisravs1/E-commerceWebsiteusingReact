@@ -1,9 +1,18 @@
-import React, { useState,useReducer } from "react";
+import React, { useState,useReducer ,useEffect} from "react";
 
-import CartContext from './cart-context'
+import CartContext from './cart-context';
+
+// const getLocalCartData = () => {
+//     let localCartData = localStorage.getItem("kodurusravani813@gmail.com");
+//     if (localCartData == []) {
+//       return [];
+//     } else {
+//       return JSON.parse(localCartData);
+//     }
+//   };
 
 const defaultState = {
-    products: [],
+    products: JSON.parse(localStorage.getItem('kodurusravani813@gmail.com')), //getLocalCartData(),
     totalAmount: 0
 }
 
@@ -27,10 +36,10 @@ const cartReducer = (state, action) => {
 
         }
 
+    // to add the data in localStorage
+  // get vs set
 
-
-
-
+  
         return {
             products: update,
             totalAmount: updatedAmount
@@ -60,6 +69,7 @@ const CartProvider = (props) => {
             value: product
 
         })
+       
     }
 
     
@@ -80,6 +90,14 @@ const CartProvider = (props) => {
 
 
     }
+    // useEffect(() => {
+    
+
+    //     localStorage.setItem("kodurusravani813@gmail.com", JSON.stringify(state.products));
+    //   }, [state.products]);
+    
+    
+    
     return <CartContext.Provider value={Cart}>{props.children}</CartContext.Provider>
 }
 

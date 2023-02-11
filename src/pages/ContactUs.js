@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import classes from "./ContactUs.module.css";
 
@@ -6,6 +7,7 @@ const ContactUS = () => {
     const name = useRef('');
     const email = useRef('');
     const phoneNumber = useRef('');
+    const history=useNavigate();
 
     const contactFormSubmitHandler = async (event) => {
         event.preventDefault();
@@ -16,11 +18,12 @@ const ContactUS = () => {
             phoneNumber: phoneNumber.current.value,
         }; 
         // console.log('contactus',userData);
-        const response = await fetch('https://react-http-2e904-default-rtdb.firebaseio.com/userData/userData.json', {
+        const response = await fetch('https://reacthttp-37efe-default-rtdb.firebaseio.com/userData/userData.json', {
             method: 'POST',
             body: JSON.stringify(userData),
         });
         const data =await response.json();
+        history('/')
         console.log(data);
     }
 

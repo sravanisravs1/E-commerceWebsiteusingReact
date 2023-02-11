@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 
-let logoutTimer;
+
 
 const AuthContext = React.createContext({
   token: '',
+  // user:'',
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
@@ -14,10 +15,13 @@ const AuthContext = React.createContext({
 export const AuthContextProvider = (props) => {
  
   const [token, setToken] = useState(null);
+  // const {user,setUser}= useState(null);
 
   const userIsLoggedIn = !!token;
 
-  
+  // const addUser =(email)=>{
+  //   setUser(email)
+  // }
 
   const loginHandler = (token) => {
     setToken(token);
@@ -33,10 +37,10 @@ export const AuthContextProvider = (props) => {
   
   const contextValue = {
     token: token,
+    // user:addUser,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
-    logout:logoutHandler,
-    
+    logout:logoutHandler,  
   };
 
   return (

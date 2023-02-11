@@ -1,6 +1,6 @@
-import React, { Fragment, useContext, useState } from "react";
-import { Nav,Navbar,Button, Container} from 'react-bootstrap';
-import {NavLink,Outlet ,useNavigate } from 'react-router-dom'
+import React, { Fragment, useContext,  useState } from "react";
+import { Button} from 'react-bootstrap';
+import {NavLink,Outlet } from 'react-router-dom'
 
 import Cart from "../Cart/Cart";
 import classes from './Header.module.css';
@@ -14,12 +14,22 @@ const Header = () => {
    const handleClose = () => setShow(false);
    const authCtx = useContext(AuthContext);
    const isLoggedIn= authCtx.isLoggedIn;
+   const hasItems=context.products.length>0;
    
-   const history = useNavigate();
+   
    const logoutHandler=authCtx.logout;
    
  
- 
+   console.log(context.products)
+   localStorage.setItem('kodurusravani813@gmail.com',JSON.stringify(context.products))
+   // useEffect(()=>{
+   //    (async() =>{
+   //       const products=await fetch('https://reacthttp-37efe-default-rtdb.firebaseio.com/cart.json',{
+   //       method:'POST',
+   //       body:JSON.stringify(context.products),
+   //       // headers:'Content-Type:application/json'
+   //    }).then()
+   // }),[])
    const totalNumber = context.products.reduce((acc,cur)=>{
      return acc+cur.quantity;
    },0)
@@ -41,13 +51,13 @@ const Header = () => {
                 <Button variant="outline-info" onClick={handleShow}>
                      Cart <span>{totalNumber}</span>
                      </Button>
-                     <Cart
+                     {hasItems &&<Cart
                      show={show}
                      onHide={handleClose}
                      //   backdrop="static"
                      keyboard={false}
                      onClick={handleClose}
-                     />
+                     />}
             </div>
          </header> 
          <Outlet/>

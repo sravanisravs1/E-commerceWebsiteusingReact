@@ -53,6 +53,7 @@ const submitHandler=(event)=>{
 }
 const addItemToCart=(product)=>{
   console.log(product)
+  
   context.addItem({
     title:product.title,
     id:product.id,
@@ -64,8 +65,8 @@ const addItemToCart=(product)=>{
 }
   return <React.Fragment>
   {productsArr.map((product)=>(
-    <form style={{ width: '18rem',display: "inline-block", flexWrap: "wrap" }} className="m-3" onSubmit={submitHandler}>
-        <Card className="shadow-lg m-5" key={Math.random()} style={{ width: '18rem',display: "inline-block", flexWrap: "wrap" }}>
+    <form key={product.id} style={{ width: '18rem',display: "inline-block", flexWrap: "wrap" }} className="m-3" onSubmit={submitHandler}>
+        <Card className="shadow-lg m-5" key={product.id} style={{ width: '18rem',display: "inline-block", flexWrap: "wrap" }}>
             <Card.Img 
               onClick={()=> navigate(`/products/${product.id}`)}
               variant="top"  

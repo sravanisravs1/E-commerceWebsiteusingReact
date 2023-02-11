@@ -17,7 +17,7 @@ const Login = () => {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
      console.log(enteredEmail,enteredPassword)
-
+     
     fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDRorahRJ_juKatl8aQXmkip1wxxy28S84",
     {
         method: 'POST',
@@ -41,15 +41,16 @@ const Login = () => {
        errorMessage = data.error.message
        }
      throw new Error(errorMessage)
-     alert(errorMessage);
+     
      })
    }
  })
  .then((data) => {                          
   console.log(data.idToken);  
-  authCtx.login(data.idToken)
+  authCtx.login(data.idToken);
+  history('/products');
   localStorage.setItem('token', data.idToken);
-   history('/products');
+   
  })
  .catch((err) => {
    alert(err.message)
