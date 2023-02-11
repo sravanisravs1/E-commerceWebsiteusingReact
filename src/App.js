@@ -11,6 +11,7 @@ import ContactUs from './Pages/ContactUs';
 import SingleProduct from "./Pages/SingleProduct";
 import Login from "./components/Auth/Login";
 
+
 const router = createBrowserRouter( [ 
   {
     path: '/',
@@ -22,6 +23,7 @@ const router = createBrowserRouter( [
       { path: '/contact', element: <ContactUs/>},
       {path: '/products/:id', element: <SingleProduct/>},
       {path: '/login', element: <Login/>},
+      // {path:'/logout',element:<Logout/>}
     ],
   },
 ] );

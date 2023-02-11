@@ -1,9 +1,12 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import classes from './Login.module.css';
+import AuthContext from "../../store/Auth-context";
 
 const Login = () => {
+    const authCtx = useContext(AuthContext);
+
     const history = useNavigate();
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
@@ -37,12 +40,14 @@ const Login = () => {
        if(data && data.error && data.error.message) {
        errorMessage = data.error.message
        }
-     throw new Error(errorMessage);
+     throw new Error(errorMessage)
+     alert(errorMessage);
      })
    }
  })
  .then((data) => {                          
   console.log(data.idToken);  
+  authCtx.login(data.idToken)
   localStorage.setItem('token', data.idToken);
    history('/products');
  })
