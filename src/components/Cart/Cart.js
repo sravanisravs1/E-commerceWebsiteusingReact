@@ -40,10 +40,10 @@ const Cart = (props) => {
 
   const totalAmount= `Rs.${context.totalAmount.toFixed(2)}`
 
-  const hasItems=context.products.length>0;
+  const hasItems=context.item.length>0;
 
-  const cartRemove=(ele)=>{
-    context.removeItem(ele)
+  const cartRemove=(_id)=>{
+    context.removeItem(_id)
   }
 
 
@@ -89,8 +89,8 @@ const Cart = (props) => {
         </Modal.Header>
 
         <Modal.Body style={{ maxHeight:'20rem',overflow:'scroll'}}  >
-          {context.products.map((ele,index) => (
-            <ul style={{ display: "flex"}} key={Math.random()}>
+          {context.item.map((ele,index) => (
+            <ul style={{ display: "flex"}} key={ele._id} id={ele._id}>
               <li style={{ listStyle: "none" }}>
                 <span style={{ display: "flex" }} className="mt-lg-4">
                   <img src={ele.imageUrl} style={{ width: "20%" }  } alt="items"></img>
@@ -107,7 +107,7 @@ const Cart = (props) => {
                     {ele.quantity}
                   </span>
                   <div style={{ marginLeft: "10px" }}>
-                    <Button className="btn btn-danger p-2" style={{ display: "inline-block"}} onClick={()=>cartRemove(ele)}>Remove</Button>
+                    <Button className="btn btn-danger p-2" style={{ display: "inline-block"}} onClick={()=>cartRemove(ele._id)}>Remove</Button>
                   </div>
                 </span>
               </li>

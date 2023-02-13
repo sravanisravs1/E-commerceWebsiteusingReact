@@ -23,6 +23,7 @@ const router = createBrowserRouter( [
       { path: '/contact', element: <ContactUs/>},
       {path: '/products/:id', element: <SingleProduct/>},
       {path: '/login', element: <Login/>},
+      {path:'*', element:<Login/>}
       // {path:'/logout',element:<Logout/>}
     ],
   },
